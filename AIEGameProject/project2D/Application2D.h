@@ -23,6 +23,8 @@ protected:
 	//aie::Font*			m_font;
 	//aie::Texture*		m_rock;
 											
+	aie::Font*			m_Text;
+
 	aie::Texture*		m_background1;		//Background layers
 	aie::Texture*		m_background2;
 	aie::Texture*		m_background3;
@@ -36,14 +38,19 @@ protected:
 	aie::Texture*		m_background9;
 
 	aie::Texture*		m_lumberjack;
-	aie::Texture*		m_player1;
-	aie::Texture*		m_player2;
-	aie::Texture*		m_player3;
-	aie::Texture*		m_player4;
 	aie::Texture*		m_enemy1;
-	aie::Texture*		m_enemy2;
-	aie::Texture*		m_enemy3;
+	
 
 	float m_cameraX, m_cameraY;
 	float m_timer;
+	float textAlpha = 1;
+
+	float xAxisP;
+
+	float xAxis2;
+	float xAxis3;
+	float xAxis4;
+	float xAxis7;
+	float xAxis9;
+
 };
