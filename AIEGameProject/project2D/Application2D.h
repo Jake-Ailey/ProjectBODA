@@ -35,6 +35,7 @@ protected:
 	aie::Texture*		m_background8;
 	aie::Texture*		m_background9;
 
+	aie::Texture*		m_lumberjack;
 	aie::Texture*		m_player1;
 	aie::Texture*		m_player2;
 	aie::Texture*		m_player3;

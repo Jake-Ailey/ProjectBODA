@@ -33,6 +33,7 @@ bool Application2D::startup() {
 	m_background9 = new aie::Texture("textures/Background Layers/background9.png");
 
 
+	m_lumberjack = new aie::Texture("textures/Player Sprites/Lumberjack.png");
 	m_player1 = new aie::Texture("textures/Player Sprites/Player1.png");		//Creation of Player and Enemy Sprites
 	m_player2 = new aie::Texture("textures/Player Sprites/Player2.png");
 	m_player3 = new aie::Texture("textures/Player Sprites/Player3.png");
@@ -68,6 +69,7 @@ void Application2D::shutdown() {
 	delete	m_background8;
 	delete	m_background9;
 
+	delete m_lumberjack;
 	delete m_player1;			//Deletion of player and enemes;
 	delete m_player2;
 	delete m_player3;
@@ -149,19 +151,19 @@ void Application2D::draw() {
 		//m_2dRenderer->drawText(m_font, "Press ESC to quit!", 0, 720 - 64);
 	//_________________________________________________________________________________|
 
-	m_2dRenderer->drawSprite(m_background1, 400, 400);		//Drawing background sprite to center of screen
-	m_2dRenderer->drawSprite(m_background2, 400, 400);
-	m_2dRenderer->drawSprite(m_background3, 400, 400);
-	m_2dRenderer->drawSprite(m_background4, 400, 400);
-	m_2dRenderer->drawSprite(m_background4L, 400, 400);
-	m_2dRenderer->drawSprite(m_background5, 400, 400);
-	m_2dRenderer->drawSprite(m_background6, 400, 400);
-	m_2dRenderer->drawSprite(m_background7, 400, 400);
-	m_2dRenderer->drawSprite(m_background7L, 400, 400);
-	m_2dRenderer->drawSprite(m_background8, 400, 400);
-	m_2dRenderer->drawSprite(m_background9, 400, 400);
+	m_2dRenderer->drawSprite(m_background1, 400, 1200);		//Drawing background sprite to center of screen
+	m_2dRenderer->drawSprite(m_background2, 400, 1200);
+	m_2dRenderer->drawSprite(m_background3, 400, 1200);
+	m_2dRenderer->drawSprite(m_background4, 400, 1200);
+	m_2dRenderer->drawSprite(m_background4L, 400, 1200);
+	m_2dRenderer->drawSprite(m_background5, 400, 1200);
+	m_2dRenderer->drawSprite(m_background6, 400, 1200);
+	m_2dRenderer->drawSprite(m_background7, 400, 1200);
+	m_2dRenderer->drawSprite(m_background7L, 400, 1200);
+	m_2dRenderer->drawSprite(m_background8, 400, 1200);
+	m_2dRenderer->drawSprite(m_background9, 400, 1200);
 
-	m_2dRenderer->drawSprite(m_player2, 100, 100, 42.5, 82.5);
+	m_2dRenderer->drawSprite(m_lumberjack, 100, 355, 144, 328, 0, 0);
 
 	// done drawing sprites
 	m_2dRenderer->end();
