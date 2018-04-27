@@ -37,8 +37,8 @@ protected:
 	aie::Texture*		m_background8;
 	aie::Texture*		m_background9;
 
-	aie::Texture*		m_lumberjack;
-	aie::Texture*		m_enemy1;
+	aie::Texture*		m_enemy1;		//Enemy Texture
+
 	
 
 	float m_cameraX, m_cameraY;
@@ -52,5 +52,7 @@ protected:
 	float xAxis4;
 	float xAxis7;
 	float xAxis9;
+
+	int spriteIndex;
 
 };
