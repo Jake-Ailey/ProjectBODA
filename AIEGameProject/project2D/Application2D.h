@@ -25,11 +25,11 @@ protected:
 											
 	aie::Font*			m_Text;
 
-	aie::Texture*		m_background1;		//Background layers
-	aie::Texture*		m_background2;
+	aie::Texture*		m_background1;		//Different layers to the background. We need all these layers because we are going for a parallax effect
+	aie::Texture*		m_background2;		
 	aie::Texture*		m_background3;
 	aie::Texture*		m_background4;
-	aie::Texture*		m_background4L;
+	aie::Texture*		m_background4L;		//Layers makred with an 'L' are the layers of light beams that shine through the world
 	aie::Texture*		m_background5;
 	aie::Texture*		m_background6;
 	aie::Texture*		m_background7;
@@ -45,14 +45,11 @@ protected:
 	float m_timer;
 	float textAlpha = 1;
 
-	float xAxisP;
-
-	float xAxis2;
+	float xAxis2;		//Modifiable axis variables which will be used for different background layers, so that they can all move independantly
 	float xAxis3;
 	float xAxis4;
 	float xAxis7;
 	float xAxis9;
 
-	int spriteIndex;
 
 };

@@ -15,10 +15,11 @@ Application2D::~Application2D() {
 Player player;
 
 bool Application2D::startup() {
-	
+
 	m_2dRenderer = new aie::Renderer2D();
 		
 	m_Text = new aie::Font("./font/consolas_italic.ttf", 32);
+
 
 	m_background1 = new aie::Texture("textures/Background Layers/background1.png");			//Creation of background sprites
 	m_background2 = new aie::Texture("textures/Background Layers/background2.png");			//There are multiple layers because we want
@@ -32,9 +33,10 @@ bool Application2D::startup() {
 	m_background8 = new aie::Texture("textures/Background Layers/background8.png");
 	m_background9 = new aie::Texture("textures/Background Layers/background9.png");
 
+	player.startup();
+
 	m_enemy1 = new aie::Texture("textures/Enemy Sprites/Enemy1.png");				//Creation of enemy sprite	
 
-	
 	m_cameraX = 0;
 	m_cameraY = 0;
 	
@@ -51,7 +53,7 @@ bool Application2D::startup() {
 
 void Application2D::shutdown() {
 	
-	/*delete m_font;
+	/*delete m_font;		//Examples for shutdown
 	delete m_texture;
 	delete m_shipTexture;*/
 
@@ -69,6 +71,8 @@ void Application2D::shutdown() {
 	delete	m_background8;
 	delete	m_background9;
 
+	player.shutdown();
+
 	delete m_enemy1;		//enemy deletion
 	
 	delete m_2dRenderer;
@@ -78,6 +82,7 @@ void Application2D::update(float deltaTime) {
 
 	m_timer += deltaTime;
 
+
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 
@@ -85,20 +90,27 @@ void Application2D::update(float deltaTime) {
 
 	//The 'up' and 'down' inputs are going to be used as the attack buttons, where the player smoothly raises the axe using the 'up' key, 
 	//then makes a downward chop using the 'down' key. This will be heavily reliant on smooth animations
+
+	if()
 	
 	if (input->isKeyDown(aie::INPUT_KEY_UP))
 	{
-		player.keyPressUp();
+		player.keyPressUp();	//Calling the player function "keyPressUp" which changes the players' sprite while key is pressed
 	}
 
 	if (input->wasKeyReleased(aie::INPUT_KEY_UP))
 	{
-		player.keyPressUpRelease();
+		player.keyPressUpRelease();		//Changes players' sprite back to the idle image should the up key be released
 	}
 
 	if (input->isKeyDown(aie::INPUT_KEY_DOWN))
 	{
 		//lower axe, or chop downwards if axe raised all the way
+	}
+
+	if (input->wasKeyReleased(aie::INPUT_KEY_DOWN))
+	{
+		//
 	}
 	
 	if (input->isKeyDown(aie::INPUT_KEY_LEFT))		//PLAYER LEFT MOVEMENT
@@ -106,7 +118,7 @@ void Application2D::update(float deltaTime) {
 		m_cameraX -= 175.0f * deltaTime;
 		player.xAxis -= 175.0f * deltaTime;		//Player movement in sync with camera
 			
-		xAxis9 += 0.25f;
+		xAxis9 += 0.25f;					//This layer is the grass in front of player, moves in opposite direction for added depth effect
 
 		xAxis7 -= 0.1f;						//Moves the different background layers in the opposite direction to the player
 		xAxis4 -= 0.2f;						//and at different speeds, to give a parallax effect
@@ -131,9 +143,7 @@ void Application2D::update(float deltaTime) {
 	
 
 	if(textAlpha > 0)			//Text at start of game, which slowly fades until it is invisible
-	textAlpha -= 0.005f;		//doesn't actually dissapear from game, just stays invisible
-	
-	
+	textAlpha -= 0.005f;		//doesn't actually dissapear from game, just stays invisible	
 
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
@@ -188,7 +198,7 @@ void Application2D::draw() {
 
 	
 
-	m_2dRenderer->setRenderColour(1, 1, 1, 1.5);
+	m_2dRenderer->setRenderColour(1, 1, 1, 1);
 	m_2dRenderer->drawSprite(m_background1, 400, 1200, 0, 0, 0, 100);		//Drawing background layer sprites to center of screen
 	m_2dRenderer->drawSprite(m_background2, xAxis2, 1200, 0, 0, 0, 99);
 	m_2dRenderer->drawSprite(m_background3, xAxis3, 1200, 0, 0, 0, 98);
@@ -197,7 +207,9 @@ void Application2D::draw() {
 	m_2dRenderer->drawSprite(m_background5, 400, 1200, 0, 0, 0, 95);
 	m_2dRenderer->drawSprite(m_background6, 400, 1200, 0, 0, 0, 94);
 	m_2dRenderer->drawSprite(m_background7, xAxis7, 1200, 0, 0, 0, 93);
-	m_2dRenderer->drawSprite(m_background7L, xAxis7, 1200, 0, 0, 0, 92);
+
+	m_2dRenderer->drawSprite(m_background7L, xAxis7, 1200, 0, 0, 0, 3);		//Beam of light, which we want in front of the player
+
 	m_2dRenderer->drawSprite(m_background8, 400, 1200, 0, 0, 0, 2);
 	m_2dRenderer->drawSprite(m_background9, xAxis9, 1200, 0, 0, 0, 1);
 
