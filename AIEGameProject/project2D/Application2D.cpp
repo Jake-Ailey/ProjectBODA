@@ -3,6 +3,7 @@
 #include "Font.h"
 #include "Input.h"
 #include "Player.h"
+#include "Enemy.h"
 
 Application2D::Application2D() {
 
@@ -13,6 +14,7 @@ Application2D::~Application2D() {
 }
 
 Player player;
+Enemy enemy;
 
 bool Application2D::startup() {
 
@@ -34,8 +36,7 @@ bool Application2D::startup() {
 	m_background9 = new aie::Texture("textures/Background Layers/background9.png");
 
 	player.startup();
-
-	m_enemy1 = new aie::Texture("textures/Enemy Sprites/Enemy1.png");				//Creation of enemy sprite	
+	enemy.startup();
 
 	m_cameraX = 0;
 	m_cameraY = 0;
@@ -72,8 +73,7 @@ void Application2D::shutdown() {
 	delete	m_background9;
 
 	player.shutdown();
-
-	delete m_enemy1;		//enemy deletion
+	enemy.shutdown();
 	
 	delete m_2dRenderer;
 }
@@ -90,8 +90,7 @@ void Application2D::update(float deltaTime) {
 
 	//The 'up' and 'down' inputs are going to be used as the attack buttons, where the player smoothly raises the axe using the 'up' key, 
 	//then makes a downward chop using the 'down' key. This will be heavily reliant on smooth animations
-
-	if()
+	
 	
 	if (input->isKeyDown(aie::INPUT_KEY_UP))
 	{
@@ -116,7 +115,7 @@ void Application2D::update(float deltaTime) {
 	if (input->isKeyDown(aie::INPUT_KEY_LEFT))		//PLAYER LEFT MOVEMENT
 	{
 		m_cameraX -= 175.0f * deltaTime;
-		player.xAxis -= 175.0f * deltaTime;		//Player movement in sync with camera
+		player.m_xAxis -= 175.0f * deltaTime;		//Player movement in sync with camera
 			
 		xAxis9 += 0.25f;					//This layer is the grass in front of player, moves in opposite direction for added depth effect
 
@@ -130,7 +129,7 @@ void Application2D::update(float deltaTime) {
 	if (input->isKeyDown(aie::INPUT_KEY_RIGHT))
 	{
 		m_cameraX += 175.0f * deltaTime;
-		player.xAxis += 175.0f * deltaTime;				//Need to create a "player.move" function
+		player.m_xAxis += 175.0f * deltaTime;				//Need to create a "player.move" function
 
 		xAxis9 -= 0.25f;			//This layer is the grass in front of player, moves in opposite direction for added depth effect
 
@@ -214,8 +213,8 @@ void Application2D::draw() {
 	m_2dRenderer->drawSprite(m_background9, xAxis9, 1200, 0, 0, 0, 1);
 
 	player.draw(m_2dRenderer);
+	enemy.draw(m_2dRenderer);
 
-	m_2dRenderer->drawSprite(m_enemy1, 3200, 355, 272, 320, 0, 3);			//Draw the enemy at position 3200, 355
 
 	m_2dRenderer->setRenderColour(1, 1, 1, textAlpha);
 	m_2dRenderer->drawText(m_Text, "You hear an unusual sound...", 200, 620, 2);
