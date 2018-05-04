@@ -92,9 +92,11 @@ void Application2D::update(float deltaTime) {
 	//then makes a downward chop using the 'down' key. This will be heavily reliant on smooth animations
 	
 	
-	if (input->isKeyDown(aie::INPUT_KEY_UP))
+	if (input->wasKeyPressed(aie::INPUT_KEY_UP))
 	{
 		player.keyPressUp();	//Calling the player function "keyPressUp" which changes the players' sprite while key is pressed
+		
+		
 	}
 
 	if (input->wasKeyReleased(aie::INPUT_KEY_UP))
@@ -102,20 +104,25 @@ void Application2D::update(float deltaTime) {
 		player.keyPressUpRelease();		//Changes players' sprite back to the idle image should the up key be released
 	}
 
-	if (input->isKeyDown(aie::INPUT_KEY_DOWN))
+	if (input->wasKeyPressed(aie::INPUT_KEY_DOWN) && input->isKeyDown(aie::INPUT_KEY_UP))
 	{
-		//lower axe, or chop downwards if axe raised all the way
+		player.keyPressDown();
 	}
 
-	if (input->wasKeyReleased(aie::INPUT_KEY_DOWN))
+	if (input->wasKeyReleased(aie::INPUT_KEY_DOWN) && input->isKeyDown(aie::INPUT_KEY_UP))
 	{
-		//
+		player.keyPressDownRelease(true);
+	}
+	else if (input->wasKeyReleased(aie::INPUT_KEY_DOWN))
+	{
+		player.keyPressDownRelease(false);
 	}
 	
 	if (input->isKeyDown(aie::INPUT_KEY_LEFT))		//PLAYER LEFT MOVEMENT
 	{
 		m_cameraX -= 175.0f * deltaTime;
-		player.m_xAxis -= 175.0f * deltaTime;		//Player movement in sync with camera
+		player.m_xAxisPlayer -= 175.0f * deltaTime;		//Player movement in sync with camera
+		player.m_xAxisHeart -= 175.0f * deltaTime;		//Heart movement in sync with camera
 			
 		xAxis9 += 0.25f;					//This layer is the grass in front of player, moves in opposite direction for added depth effect
 
@@ -129,7 +136,8 @@ void Application2D::update(float deltaTime) {
 	if (input->isKeyDown(aie::INPUT_KEY_RIGHT))
 	{
 		m_cameraX += 175.0f * deltaTime;
-		player.m_xAxis += 175.0f * deltaTime;				//Need to create a "player.move" function
+		player.m_xAxisPlayer += 175.0f * deltaTime;				//Need to create a "player.move" function
+		player.m_xAxisHeart += 175.0f * deltaTime;				
 
 		xAxis9 -= 0.25f;			//This layer is the grass in front of player, moves in opposite direction for added depth effect
 
