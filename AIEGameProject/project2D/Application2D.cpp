@@ -4,6 +4,8 @@
 #include "Input.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Weapon.h"
+#include <iostream>
 
 Application2D::Application2D() {
 
@@ -15,6 +17,9 @@ Application2D::~Application2D() {
 
 Player player;
 Enemy enemy;
+Weapon weapon;
+
+
 
 bool Application2D::startup() {
 
@@ -37,6 +42,7 @@ bool Application2D::startup() {
 
 	player.startup();
 	enemy.startup();
+	weapon.startup();
 
 	m_cameraX = 0;
 	m_cameraY = 0;
@@ -53,10 +59,6 @@ bool Application2D::startup() {
 }
 
 void Application2D::shutdown() {
-	
-	/*delete m_font;		//Examples for shutdown
-	delete m_texture;
-	delete m_shipTexture;*/
 
 	delete m_Text;			//Deletion of text
 
@@ -74,6 +76,7 @@ void Application2D::shutdown() {
 
 	player.shutdown();
 	enemy.shutdown();
+	weapon.shutdown();
 	
 	delete m_2dRenderer;
 }
@@ -94,35 +97,46 @@ void Application2D::update(float deltaTime) {
 	
 	if (input->wasKeyPressed(aie::INPUT_KEY_UP))
 	{
-		player.keyPressUp();	//Calling the player function "keyPressUp" which changes the players' sprite while key is pressed
-		
-		
+		player.playerState(2);					//Calls a function to change the player's sprite or "stance"		
+		weapon.spriteState(2);					//Calls a function to change the weapon's positioning
+		weapon.m_objectDepth = 4;
 	}
 
-	if (input->wasKeyReleased(aie::INPUT_KEY_UP))
+	if (input->wasKeyReleased(aie::INPUT_KEY_UP) && input->isKeyUp(aie::INPUT_KEY_DOWN))
 	{
-		player.keyPressUpRelease();		//Changes players' sprite back to the idle image should the up key be released
+		player.playerState(1);				//Changes players' sprite back to the idle image should the up key be released
+		weapon.spriteState(1);
+		weapon.m_objectDepth = 4;
 	}
 
 	if (input->wasKeyPressed(aie::INPUT_KEY_DOWN) && input->isKeyDown(aie::INPUT_KEY_UP))
 	{
-		player.keyPressDown();
+		player.playerState(3);					//Swing axe downwards
+		weapon.spriteState(3);
+		weapon.m_objectDepth = 3.2f;
 	}
 
 	if (input->wasKeyReleased(aie::INPUT_KEY_DOWN) && input->isKeyDown(aie::INPUT_KEY_UP))
 	{
-		player.keyPressDownRelease(true);
+		player.playerState(2);
+		weapon.spriteState(2);
+		weapon.m_objectDepth = 4;
 	}
-	else if (input->wasKeyReleased(aie::INPUT_KEY_DOWN))
+
+	if (input->wasKeyReleased(aie::INPUT_KEY_DOWN) && input->isKeyUp(aie::INPUT_KEY_UP))
 	{
-		player.keyPressDownRelease(false);
+		player.playerState(1);
+		weapon.spriteState(1);
+		weapon.m_objectDepth = 4;	
 	}
-	
+
 	if (input->isKeyDown(aie::INPUT_KEY_LEFT))		//PLAYER LEFT MOVEMENT
 	{
 		m_cameraX -= 175.0f * deltaTime;
+
 		player.m_xAxisPlayer -= 175.0f * deltaTime;		//Player movement in sync with camera
 		player.m_xAxisHeart -= 175.0f * deltaTime;		//Heart movement in sync with camera
+		weapon.m_xAxis -= 175.0f * deltaTime;		//Weapon movement in sync with camera
 			
 		xAxis9 += 0.25f;					//This layer is the grass in front of player, moves in opposite direction for added depth effect
 
@@ -136,8 +150,10 @@ void Application2D::update(float deltaTime) {
 	if (input->isKeyDown(aie::INPUT_KEY_RIGHT))
 	{
 		m_cameraX += 175.0f * deltaTime;
+
 		player.m_xAxisPlayer += 175.0f * deltaTime;				//Need to create a "player.move" function
-		player.m_xAxisHeart += 175.0f * deltaTime;				
+		player.m_xAxisHeart += 175.0f * deltaTime;			
+		weapon.m_xAxis += 175.0f * deltaTime;				
 
 		xAxis9 -= 0.25f;			//This layer is the grass in front of player, moves in opposite direction for added depth effect
 
@@ -205,24 +221,24 @@ void Application2D::draw() {
 
 	
 
-	m_2dRenderer->setRenderColour(1, 1, 1, 1);
-	m_2dRenderer->drawSprite(m_background1, 400, 1200, 0, 0, 0, 100);		//Drawing background layer sprites to center of screen
-	m_2dRenderer->drawSprite(m_background2, xAxis2, 1200, 0, 0, 0, 99);
-	m_2dRenderer->drawSprite(m_background3, xAxis3, 1200, 0, 0, 0, 98);
-	m_2dRenderer->drawSprite(m_background4, xAxis4, 1200, 0, 0, 0, 97);
-	m_2dRenderer->drawSprite(m_background4L, xAxis4, 1200, 0, 0, 0, 96);
-	m_2dRenderer->drawSprite(m_background5, 400, 1200, 0, 0, 0, 95);
-	m_2dRenderer->drawSprite(m_background6, 400, 1200, 0, 0, 0, 94);
-	m_2dRenderer->drawSprite(m_background7, xAxis7, 1200, 0, 0, 0, 93);
+	//m_2dRenderer->setRenderColour(1, 1, 1, 1);
+	//m_2dRenderer->drawSprite(m_background1, 400, 1200, 0, 0, 0, 100);		//Drawing background layer sprites to center of screen
+	//m_2dRenderer->drawSprite(m_background2, xAxis2, 1200, 0, 0, 0, 99);
+	//m_2dRenderer->drawSprite(m_background3, xAxis3, 1200, 0, 0, 0, 98);
+	//m_2dRenderer->drawSprite(m_background4, xAxis4, 1200, 0, 0, 0, 97);
+	//m_2dRenderer->drawSprite(m_background4L, xAxis4, 1200, 0, 0, 0, 96);
+	//m_2dRenderer->drawSprite(m_background5, 400, 1200, 0, 0, 0, 95);
+	//m_2dRenderer->drawSprite(m_background6, 400, 1200, 0, 0, 0, 94);
+	//m_2dRenderer->drawSprite(m_background7, xAxis7, 1200, 0, 0, 0, 93);
 
-	m_2dRenderer->drawSprite(m_background7L, xAxis7, 1200, 0, 0, 0, 3);		//Beam of light, which we want in front of the player
+	//m_2dRenderer->drawSprite(m_background7L, xAxis7, 1200, 0, 0, 0, 3);		//Beam of light, which we want in front of the player
 
-	m_2dRenderer->drawSprite(m_background8, 400, 1200, 0, 0, 0, 2);
-	m_2dRenderer->drawSprite(m_background9, xAxis9, 1200, 0, 0, 0, 1);
+	//m_2dRenderer->drawSprite(m_background8, 400, 1200, 0, 0, 0, 2);
+	//m_2dRenderer->drawSprite(m_background9, xAxis9, 1200, 0, 0, 0, 1);
 
-	player.draw(m_2dRenderer);
+	player.draw(m_2dRenderer);												//Drawing objects onto the screen
 	enemy.draw(m_2dRenderer);
-
+	weapon.draw(m_2dRenderer);
 
 	m_2dRenderer->setRenderColour(1, 1, 1, textAlpha);
 	m_2dRenderer->drawText(m_Text, "You hear an unusual sound...", 200, 620, 2);

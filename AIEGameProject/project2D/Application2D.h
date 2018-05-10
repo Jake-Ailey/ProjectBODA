@@ -18,12 +18,8 @@ public:
 protected:
 
 	aie::Renderer2D*	m_2dRenderer;		//example textures
-	//aie::Texture*		m_texture;
-	//aie::Texture*		m_shipTexture;
-	//aie::Font*			m_font;
-	//aie::Texture*		m_rock;
 											
-	aie::Font*			m_Text;
+	aie::Font*			m_Text;				//Text that fades at the start of the game
 
 	aie::Texture*		m_background1;		//Different layers to the background. We need all these layers because we are going for a parallax effect
 	aie::Texture*		m_background2;		
@@ -36,10 +32,6 @@ protected:
 	aie::Texture*		m_background7L;
 	aie::Texture*		m_background8;
 	aie::Texture*		m_background9;
-
-	aie::Texture*		m_enemy1;		//Enemy Texture
-
-	
 
 	float m_cameraX, m_cameraY;
 	float m_timer;
